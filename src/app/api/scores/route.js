@@ -1,15 +1,9 @@
-import fs from 'fs';
-import path from 'path';
-
-const filePath = path.join(process.cwd(), "scores.json");
+import clientPromise from '@/lib/mongodb';
 
 export async function GET(request) {
-  // Read Scores from JSON file
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, JSON.stringify([]));
-  }
-  const data = fs.readFileSync(filePath);
-  const scores = JSON.parse(data);
+  const client = await clientPromise;
+  const db = client.db('quizotica');
+  const scores = await db.collection('scores').find({}).toArray();
   return new Response(JSON.stringify(scores), {
     status: 200,
     headers: {
@@ -21,7 +15,7 @@ export async function GET(request) {
 export async function POST(request) {
   const { username, category, score } = await request.json();
   if (!username || !category || score === undefined) {
-    return new Response(JSON.stringify({ message: "Invalid data" }), {
+    return new Response(JSON.stringify({ message: 'Invalid data' }), {
       status: 400,
       headers: {
         'Content-Type': 'application/json',
@@ -29,16 +23,16 @@ export async function POST(request) {
     });
   }
 
-  const data = fs.existsSync(filePath)
-    ? fs.readFileSync(filePath)
-    : JSON.stringify([]);
-  const scores = JSON.parse(data);
+  const client = await clientPromise;
+  const db = client.db('quizotica');
+  const result = await db.collection('scores').insertOne({
+    username,
+    category,
+    score,
+    date: new Date().toISOString(),
+  });
 
-  // Add the new score
-  scores.push({ username, category, score, date: new Date().toISOString() });
-  fs.writeFileSync(filePath, JSON.stringify(scores, null, 2));
-
-  return new Response(JSON.stringify({ message: "Score saved" }), {
+  return new Response(JSON.stringify({ message: 'Score saved' }), {
     status: 201,
     headers: {
       'Content-Type': 'application/json',
