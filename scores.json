@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "username": "Bob",
+    "category": "29",
+    "score": 6,
+    "date": "2024-11-27T14:30:34.792Z"
+  },
+  {
+    "username": "bob",
+    "category": "Entertainment: Comics",
+    "score": 5,
+    "date": "2024-11-27T14:37:12.883Z"
+  }
+]

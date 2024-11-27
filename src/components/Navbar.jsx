@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Navbar () {
     const [ theme, setTheme ] = useState( "light" );
@@ -12,7 +13,7 @@ export default function Navbar () {
     return (
         <div className="navbar bg-base-100 shadow-md">
             <div className="flex-1">
-               <Link className="btn btn-ghost normal-case text-xl">Quizotica</Link>
+               <Link href="/" className="btn btn-ghost normal-case text-xl">Quizotica</Link>
             </div>
             <div className="flex-none"> 
                 <button onClick={ toggleTheme } className="btn btn-ghost">

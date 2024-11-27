@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
+import Leaderboard from "@/components/Leaderboard";
 
 export default function HomePage() {
   const [categories, setCategories] = useState([]);
@@ -54,6 +55,8 @@ export default function HomePage() {
           </div>
         ))}
       </div>
+
+      <Leaderboard />
     </div>
   );
 }
