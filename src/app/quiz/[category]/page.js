@@ -1,17 +1,12 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import Spinner from "@/components/Spinner";
 import Timer from "@/components/Timer";
 import he from "he";
 
 export default function QuizPage({ params }) {
-  const unwrappedParams = use(params);
-  const { category = '' } = unwrappedParams;
-
-  if (!category) {
-    return <div>Error: Missing category parameter</div>;
-  }
+  const { category = '' } = params;
 
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -26,30 +21,30 @@ export default function QuizPage({ params }) {
     setDifficulty(urlParams.get("difficulty"));
   }, []);
 
-  const fetchQuestions = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(
-        `https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`
-      );
-      if (!response.ok) {
-        throw new Error('Failed to fetch questions');
-      }
-      const data = await response.json();
-      if (!data.results || data.results.length === 0) {
-        throw new Error('No questions available');
-      }
-      setQuestions(data.results);
-    } catch (error) {
-      console.error('Error fetching questions:', error);
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch(
+          `https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`
+        );
+        if (!response.ok) {
+          throw new Error('Failed to fetch questions');
+        }
+        const data = await response.json();
+        if (!data.results || data.results.length === 0) {
+          throw new Error('No questions available');
+        }
+        setQuestions(data.results);
+      } catch (error) {
+        console.error('Error fetching questions:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (difficulty) {
       fetchQuestions();
     }
@@ -126,9 +121,9 @@ export default function QuizPage({ params }) {
           >
             Retry Quiz
           </button>
-          <a href="/" className="btn btn-secondary">
+          <Link href="/" className="btn btn-secondary">
             Go Home
-          </a>
+          </Link>
         </div>
       </div>
     );
