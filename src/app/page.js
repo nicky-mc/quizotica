@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
+import Link from "next/link";
 import Leaderboard from "@/components/Leaderboard";
 
 export default function HomePage() {
@@ -23,7 +24,12 @@ export default function HomePage() {
   if (loading) return <Spinner />;
 
   return (
-    <div>
+    <div className="container mx-auto p-4">
+      <div className="text-center mb-6">
+        <Link href="#leaderboard" className="btn btn-secondary">
+          View Leaderboard
+        </Link>
+      </div>
       <h1 className="text-4xl font-bold mb-6 text-center">Select a Category</h1>
       <div className="mb-4 text-center">
         <label className="mr-4 font-semibold">Difficulty:</label>
@@ -44,19 +50,17 @@ export default function HomePage() {
               <h2 className="card-title">{name}</h2>
               <p>Test your knowledge in {name}!</p>
               <div className="card-actions justify-end">
-                <a
-                  href={`/quiz/${id}?difficulty=${difficulty}`}
-                  className="btn btn-primary"
-                >
+                <Link href={`/quiz/${id}?difficulty=${difficulty}`} className="btn btn-primary">
                   Start Quiz
-                </a>
+                </Link>
               </div>
             </div>
           </div>
         ))}
       </div>
-
-      <Leaderboard />
+      <div id="leaderboard" className="mt-8">
+        <Leaderboard />
+      </div>
     </div>
   );
 }

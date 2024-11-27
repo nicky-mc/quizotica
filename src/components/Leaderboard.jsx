@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useState, useEffect } from "react";
 
 export default function Leaderboard() {
   const [scores, setScores] = useState([]);
@@ -14,29 +15,30 @@ export default function Leaderboard() {
   }, []);
 
   return (
-    <div className="mt-8">
-      <h2 className="text-xl font-bold mb-4">Leaderboard</h2>
-      <table className="table w-full">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Score</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {scores.map((entry, index) => (
-            <tr key={index}>
-              <td>{entry.username}</td>
-              <td>{entry.category}</td>
-              <td>{entry.score}</td>
-              <td>{new Date(entry.date).toLocaleDateString()}</td>
+    <div className="mt-8 container mx-auto p-4">
+      <h2 className="text-3xl font-bold mb-6 text-center">Leaderboard</h2>
+      <div className="overflow-x-auto">
+        <table className="table table-zebra w-full">
+          <thead>
+            <tr>
+              <th className="text-left">Name</th>
+              <th className="text-left">Category</th>
+              <th className="text-left">Score</th>
+              <th className="text-left">Date</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {scores.map((entry, index) => (
+              <tr key={index}>
+                <td>{entry.username}</td>
+                <td>{entry.category}</td>
+                <td>{entry.score}</td>
+                <td>{new Date(entry.date).toLocaleDateString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
-
