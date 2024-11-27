@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import Spinner from "@/components/Spinner";
 import Timer from "@/components/Timer";
